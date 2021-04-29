@@ -15,7 +15,11 @@ export function Player() {
     episodeList,
     currentEpisodeIndex,
     isPlaying,
+    isLooping,
+    isShuffling,
     togglePlay,
+    toggleLoop,
+    toggleShuffle,
     setPlayingState,
     playNext,
     playPrevious,
@@ -90,6 +94,7 @@ export function Player() {
             <audio
               src={episode.url}
               ref={audioRef}
+              loop={isLooping}
               autoPlay
               onPlay={() => setPlayingState(true)}
               onPause={() => setPlayingState(false)}
@@ -98,8 +103,13 @@ export function Player() {
         }
 
         <div className={styles.buttons}>
-          <button type='button' disabled={!episode}>
-            <img src="/shuffle.svg" alt="Embaralhar"/>
+          <button
+            type='button'
+            onClick={toggleShuffle}
+            disabled={!episode}
+            className={isShuffling ? styles.isActive : ''}
+          >
+            <img src="/shuffle.svg" alt="Embaralhar" />
           </button>
 
           <button 
@@ -107,7 +117,7 @@ export function Player() {
             onClick={playPrevious}
             disabled={!episode || !hasPrevious}
           >
-            <img src="/play-previous.svg" alt="Tocar anterior"/>
+            <img src="/play-previous.svg" alt="Tocar anterior" />
           </button>
 
           <button
@@ -118,8 +128,8 @@ export function Player() {
           >
             {
               isPlaying
-                ? <img src="/pause.svg" alt="Tocar"/>
-                : <img src="/play.svg" alt="Tocar"/>
+                ? <img src="/pause.svg" alt="Tocar" />
+                : <img src="/play.svg" alt="Tocar" />
             }
           </button>
 
@@ -128,11 +138,16 @@ export function Player() {
             onClick={playNext}
             disabled={!episode || !hasNext}
           >
-            <img src="/play-next.svg" alt="Tocar próxima"/>
+            <img src="/play-next.svg" alt="Tocar próxima" />
           </button>
 
-          <button type='button' disabled={!episode}>
-            <img src="/repeat.svg" alt="Repetir"/>
+          <button
+            type='button'
+            onClick={toggleLoop}
+            disabled={!episode}
+            className={isLooping ? styles.isActive : ''}
+          >
+            <img src="/repeat.svg" alt="Repetir" />
           </button>
         </div>
       </footer>
